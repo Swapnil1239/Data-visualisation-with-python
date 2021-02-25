@@ -1,0 +1,24 @@
+import numpy as np 
+import pandas as pd
+import matplotlib.pyplot as plt
+import folium
+df_sa=pd.read_csv("Police_Department_Incidents_-_Previous_Year__2016_.csv")
+df_sa.head()
+
+!wget --quiet https://cocl.us/sanfran_geojson -O world_countries.json
+
+sanfran_geo = r'world_countries.json' 
+sa_map=folium.Map(location=[37.77,-122.42],zoom_start=12)
+sa_map.choropleth(
+    geo_data=sanfran_geo,
+    data=df_sa,
+    columns=['Neighborhood', 'Count'],
+    key_on='feature.properties.DISTRICT',
+    fill_color='YlOrRd',
+    fill_opacity=0.7,
+    line_opacity=0.2,
+    legend_name='Crime Rate in San Francisco'
+)
+
+
+sa_map
